@@ -1,0 +1,25 @@
+#!/usr/bin/perl 
+
+$file = @ARGV[0];
+if($file eq "") {
+    print "[!] Usage: a2dissite <vhost-name>\n";
+    exit 1;
+}
+
+unless(-e "/etc/httpd/conf.d/sites-enabled/$file") {
+    print "[!] File already disabled!\n";
+    exit 2;
+}
+
+my $login = (getpwuid $>);
+if ($login != 'root') {
+    print "[!] You must run this script with root privileges!\n";
+    exit 3;
+}
+
+system('rm /etc/httpd/conf.d/sites-enabled/' . $file);
+print "[*] Disabled the site $file. Reloading your configuration.\n";
+
+print `systemctl restart httpd`;
+
+print "[*] Done. Have fun!\n";
