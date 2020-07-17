@@ -2,7 +2,8 @@
 Description=ahlev.com
 
 [Service]
-Type=simple
+Type=oneshot
+RemainAfterExit=yes
 ExecStart=/var/www/ahlev.com/shell/start.sh
 ExecStop=/var/www/ahlev.com/shell/stop.sh
 
